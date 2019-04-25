@@ -7,8 +7,8 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 public class FluidMilk extends Fluid {
-    public static ResourceLocation milk_still = new ResourceLocation(AnotherLiquidMilkMod.MOD_ID, "blocks/fluids/milk");
-    public static ResourceLocation milk_flowing = new ResourceLocation(AnotherLiquidMilkMod.MOD_ID, "blocks/fluids/milk_flow");
+    public static ResourceLocation milk_still = new ResourceLocation(AnotherLiquidMilkMod.MOD_ID, "blocks/milk");
+    public static ResourceLocation milk_flowing = new ResourceLocation(AnotherLiquidMilkMod.MOD_ID, "blocks/milk_flow");
 
     public final int color;
 
