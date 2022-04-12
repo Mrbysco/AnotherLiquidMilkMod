@@ -1,56 +1,42 @@
 package com.mrbysco.anotherliquidmilkmod;
 
+import com.mrbysco.anotherliquidmilkmod.client.ClientHandler;
 import com.mrbysco.anotherliquidmilkmod.config.MilkConfig;
-import com.mrbysco.anotherliquidmilkmod.proxy.CommonProxy;
+import com.mrbysco.anotherliquidmilkmod.handler.MilkHandler;
+import com.mrbysco.anotherliquidmilkmod.registry.MilkRegistry;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = AnotherLiquidMilkMod.MOD_ID,
-        name = AnotherLiquidMilkMod.MOD_NAME,
-        version = AnotherLiquidMilkMod.VERSION,
-        acceptedMinecraftVersions = AnotherLiquidMilkMod.ACCEPTED_VERSIONS)
-public class AnotherLiquidMilkMod
-{
-    public static final String MOD_ID = "almm";
-    public static final String MOD_NAME = "Another Liquid Milk Mod";
-    public static final String MOD_PREFIX = MOD_ID + ":";
-    public static final String VERSION = "1.1";
-    public static final String ACCEPTED_VERSIONS = "[1.12]";
-    public static final String CLIENT_PROXY_CLASS = "com.mrbysco.anotherliquidmilkmod.proxy.ClientProxy";
-    public static final String SERVER_PROXY_CLASS = "com.mrbysco.anotherliquidmilkmod.proxy.ServerProxy";
+@Mod(AnotherLiquidMilkMod.MOD_ID)
+public class AnotherLiquidMilkMod {
+	public static final String MOD_ID = "almm";
+	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
-    @Instance(AnotherLiquidMilkMod.MOD_ID)
-    public static AnotherLiquidMilkMod instance;
 
-    @SidedProxy(clientSide = AnotherLiquidMilkMod.CLIENT_PROXY_CLASS, serverSide = AnotherLiquidMilkMod.SERVER_PROXY_CLASS)
-    public static CommonProxy proxy;
+	public AnotherLiquidMilkMod() {
+		ForgeMod.enableMilkFluid(); //Enable milk from forge
 
-    public static final Logger logger = LogManager.getLogger(AnotherLiquidMilkMod.MOD_ID);
+		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, MilkConfig.commonSpec, "anotherliquidmilkmod.toml");
+		;
+		eventBus.register(MilkConfig.class);
 
-    static {
-        FluidRegistry.enableUniversalBucket();
-    }
+		MilkRegistry.FLUIDS.register(eventBus);
+		MilkRegistry.BLOCKS.register(eventBus);
 
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
-        logger.info("Registering config");
-        MinecraftForge.EVENT_BUS.register(new MilkConfig());
+		MinecraftForge.EVENT_BUS.addListener(MilkHandler::onRightClick);
 
-        proxy.Preinit();
-    }
-
-    @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        proxy.Init();
-    }
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+			eventBus.addListener(ClientHandler::onClientSetup);
+		});
+	}
 }

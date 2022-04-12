@@ -1,0 +1,21 @@
+modLoader="javafml"
+loaderVersion="[35,)"
+issueTrackerURL="https://github.com/Mrbysco/AnotherLiquidMilkMod/issues"
+license="MIT"
+
+[[mods]]
+modId="almm"
+version="${file.jarVersion}"
+displayName="Another Liquid Milk Mod"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/another-liquid-milk"
+authors="Mrbysco"
+description='''
+Another mod to add a placable milk liquid.
+'''
+credits="ViltordX for the suggestion"
+[[dependencies.almm]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.16.4,1.17)"
+ordering="NONE"
+side="BOTH"

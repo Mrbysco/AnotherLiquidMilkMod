@@ -1,31 +1,45 @@
 package com.mrbysco.anotherliquidmilkmod.config;
 
 import com.mrbysco.anotherliquidmilkmod.AnotherLiquidMilkMod;
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.config.ModConfig;
+import org.apache.commons.lang3.tuple.Pair;
 
-@Config(modid = AnotherLiquidMilkMod.MOD_ID, category = "", name = "AnotherLiquidMilkMod")
-@Config.LangKey("almm.config.title")
 public class MilkConfig {
-    @Config.Comment({"General settings"})
-    public static General general = new General();
+	public static class Common {
+		public final BooleanValue liquidCuresEffects;
 
-    public static class General{
-        @Config.Comment("Makes the liquid milk cure effects [default: true]")
-        public boolean liquidCuresEffects = true;
-    }
+		Common(ForgeConfigSpec.Builder builder) {
+			builder.comment("General settings")
+					.push("General");
 
-    @Mod.EventBusSubscriber(modid = AnotherLiquidMilkMod.MOD_ID)
-    private static class EventHandler {
 
-        @SubscribeEvent
-        public static void onConfigChanged(final ConfigChangedEvent.OnConfigChangedEvent event) {
-            if (event.getModID().equals(AnotherLiquidMilkMod.MOD_ID)) {
-                ConfigManager.sync(AnotherLiquidMilkMod.MOD_ID, Config.Type.INSTANCE);
-            }
-        }
-    }
+			liquidCuresEffects = builder
+					.comment("Makes the liquid milk cure effects [default: true]")
+					.define("liquidCuresEffects", true);
+
+			builder.pop();
+		}
+	}
+
+	public static final ForgeConfigSpec commonSpec;
+	public static final Common COMMON;
+
+	static {
+		final Pair<Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Common::new);
+		commonSpec = specPair.getRight();
+		COMMON = specPair.getLeft();
+	}
+
+	@SubscribeEvent
+	public static void onLoad(final ModConfig.Loading configEvent) {
+		AnotherLiquidMilkMod.LOGGER.debug("Loaded Another Liquid Milk Mod's config file {}", configEvent.getConfig().getFileName());
+	}
+
+	@SubscribeEvent
+	public static void onFileChange(final ModConfig.Reloading configEvent) {
+		AnotherLiquidMilkMod.LOGGER.debug("Another Liquid Milk Mod's config just got changed on the file system!");
+	}
 }
