@@ -1,30 +1,27 @@
 package com.mrbysco.anotherliquidmilkmod.block;
 
 import com.mrbysco.anotherliquidmilkmod.config.MilkConfig;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.fluid.FlowingFluid;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FlowingFluid;
 
 import java.util.function.Supplier;
 
-public class FlowingMilkBlock extends FlowingFluidBlock {
+public class FlowingMilkBlock extends LiquidBlock {
 	public FlowingMilkBlock(Supplier<? extends FlowingFluid> supplier, Properties properties) {
 		super(supplier, properties);
 	}
 
 	@Override
-	public void entityInside(BlockState state, World world, BlockPos pos, Entity entity) {
+	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
 		super.entityInside(state, world, pos, entity);
-		if (entity instanceof LivingEntity) {
-			LivingEntity livingEntity = (LivingEntity) entity;
-			if (MilkConfig.COMMON.liquidCuresEffects.get()) {
-				if (!livingEntity.getActiveEffects().isEmpty()) {
-					livingEntity.removeAllEffects();
-				}
+		if (entity instanceof LivingEntity livingEntity) {
+			if (MilkConfig.COMMON.liquidCuresEffects.get() && !livingEntity.getActiveEffects().isEmpty()) {
+				livingEntity.removeAllEffects();
 			}
 		}
 	}

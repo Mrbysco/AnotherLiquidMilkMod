@@ -2,18 +2,18 @@ package com.mrbysco.anotherliquidmilkmod.registry;
 
 import com.mrbysco.anotherliquidmilkmod.AnotherLiquidMilkMod;
 import com.mrbysco.anotherliquidmilkmod.block.FlowingMilkBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.Items;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class MilkRegistry {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, "minecraft");
@@ -22,7 +22,7 @@ public class MilkRegistry {
 	public static final RegistryObject<ForgeFlowingFluid> MILK = FLUIDS.register(ForgeMod.MILK.getId().getPath(), () -> new ForgeFlowingFluid.Source(createProperties()));
 	public static final RegistryObject<ForgeFlowingFluid> FLOWING_MILK = FLUIDS.register(ForgeMod.FLOWING_MILK.getId().getPath(), () -> new ForgeFlowingFluid.Flowing(createProperties()));
 
-	public static final RegistryObject<FlowingFluidBlock> MILK_FLUID_BLOCK = BLOCKS.register(ForgeMod.MILK.getId().getPath(), () ->
+	public static final RegistryObject<LiquidBlock> MILK_FLUID_BLOCK = BLOCKS.register(ForgeMod.MILK.getId().getPath(), () ->
 			new FlowingMilkBlock(MILK, Block.Properties.of(Material.WATER).noCollission().strength(100.0F).noDrops()));
 
 	public static ForgeFlowingFluid.Properties createProperties() {

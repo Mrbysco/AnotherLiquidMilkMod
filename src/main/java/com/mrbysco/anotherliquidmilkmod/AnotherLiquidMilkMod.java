@@ -27,7 +27,6 @@ public class AnotherLiquidMilkMod {
 
 		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, MilkConfig.commonSpec, "anotherliquidmilkmod.toml");
-		;
 		eventBus.register(MilkConfig.class);
 
 		MilkRegistry.FLUIDS.register(eventBus);
