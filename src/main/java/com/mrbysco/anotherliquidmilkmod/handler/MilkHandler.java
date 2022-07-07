@@ -35,10 +35,10 @@ public class MilkHandler {
 			} else {
 				BlockPos blockpos = blockRayTraceResult.getBlockPos();
 				Direction direction = blockRayTraceResult.getDirection();
-				BlockPos blockpos1 = blockpos.relative(direction);
-				if (world.mayInteract(player, blockpos) && player.mayUseItemAt(blockpos1, direction, itemstack)) {
+				BlockPos relativePos = blockpos.relative(direction);
+				if (world.mayInteract(player, blockpos) && player.mayUseItemAt(relativePos, direction, itemstack)) {
 					if (player instanceof ServerPlayer) {
-						CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockpos1, itemstack);
+						CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, relativePos, itemstack);
 					}
 
 					player.awardStat(Stats.ITEM_USED.get(milkBucketItem));
@@ -49,8 +49,8 @@ public class MilkHandler {
 							Containers.dropItemStack(player.level, player.getX(), player.getY(), player.getZ(), bucketStack);
 						}
 					}
-					world.setBlock(blockpos1, MilkRegistry.MILK.get().defaultFluidState().createLegacyBlock(), 11);
-					world.playSound(null, blockpos1, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+					world.setBlock(relativePos, MilkRegistry.MILK.get().defaultFluidState().createLegacyBlock(), 11);
+					world.playSound(null, relativePos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
 					event.setCancellationResult(InteractionResult.SUCCESS);
 				}
 			}
