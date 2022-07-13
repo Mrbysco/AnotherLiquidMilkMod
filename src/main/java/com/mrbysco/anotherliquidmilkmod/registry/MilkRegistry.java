@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraftforge.client.IFluidTypeRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.SoundActions;
 import net.minecraftforge.fluids.FluidType;
@@ -30,8 +30,8 @@ public class MilkRegistry {
 
 	public static final RegistryObject<FluidType> MILK_TYPE = FLUID_TYPES.register(ForgeMod.MILK.getId().getPath(), () -> new FluidType(createFluidTypeProperties()) {
 		@Override
-		public void initializeClient(Consumer<IFluidTypeRenderProperties> consumer) {
-			consumer.accept(new IFluidTypeRenderProperties() {
+		public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+			consumer.accept(new IClientFluidTypeExtensions() {
 				private static final ResourceLocation
 						MILK_STILL = new ResourceLocation("forge", "block/milk_still"),
 						MILK_FLOW = new ResourceLocation("forge", "block/milk_flowing");
@@ -47,7 +47,7 @@ public class MilkRegistry {
 				}
 
 				@Override
-				public int getColorTint() {
+				public int getTintColor() {
 					return 0xFFFFFFFF;
 				}
 			});

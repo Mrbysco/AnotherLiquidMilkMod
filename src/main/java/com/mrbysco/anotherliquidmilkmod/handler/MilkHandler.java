@@ -23,10 +23,10 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBloc
 
 public class MilkHandler {
 	public static void onRightClick(RightClickBlock event) {
-		ItemStack itemstack = event.getItemStack();
+		final ItemStack itemstack = event.getItemStack();
 		if (itemstack.getItem() instanceof MilkBucketItem milkBucketItem) {
-			Level world = event.getWorld();
-			Player player = event.getPlayer();
+			final Level world = event.getLevel();
+			final Player player = event.getEntity();
 			BlockHitResult blockRayTraceResult = Item.getPlayerPOVHitResult(world, player, ClipContext.Fluid.NONE);
 			if (blockRayTraceResult.getType() == HitResult.Type.MISS) {
 				event.setCancellationResult(InteractionResult.PASS);
