@@ -7,6 +7,7 @@ import com.mrbysco.anotherliquidmilkmod.registry.MilkRegistry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -32,7 +33,7 @@ public class AnotherLiquidMilkMod {
 		MilkRegistry.FLUIDS.register(eventBus);
 		MilkRegistry.BLOCKS.register(eventBus);
 
-		MinecraftForge.EVENT_BUS.addListener(MilkHandler::onRightClick);
+		MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, MilkHandler::onRightClick);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			eventBus.addListener(ClientHandler::onClientSetup);

@@ -25,20 +25,20 @@ public class MilkHandler {
 	public static void onRightClick(RightClickBlock event) {
 		ItemStack itemstack = event.getItemStack();
 		if (itemstack.getItem() instanceof MilkBucketItem milkBucketItem) {
-			Level world = event.getWorld();
+			Level level = event.getWorld();
 			Player player = event.getPlayer();
-			BlockHitResult blockRayTraceResult = Item.getPlayerPOVHitResult(world, player, ClipContext.Fluid.NONE);
-			if (blockRayTraceResult.getType() == HitResult.Type.MISS) {
+			BlockHitResult hitResult = Item.getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
+			if (hitResult.getType() == HitResult.Type.MISS) {
 				event.setCancellationResult(InteractionResult.PASS);
-			} else if (blockRayTraceResult.getType() != HitResult.Type.BLOCK) {
+			} else if (hitResult.getType() != HitResult.Type.BLOCK) {
 				event.setCancellationResult(InteractionResult.PASS);
 			} else {
-				BlockPos blockpos = blockRayTraceResult.getBlockPos();
-				Direction direction = blockRayTraceResult.getDirection();
-				BlockPos blockpos1 = blockpos.relative(direction);
-				if (world.mayInteract(player, blockpos) && player.mayUseItemAt(blockpos1, direction, itemstack)) {
+				BlockPos hitPos = hitResult.getBlockPos();
+				Direction direction = hitResult.getDirection();
+				BlockPos relativePos = hitPos.relative(direction);
+				if (level.mayInteract(player, hitPos) && player.mayUseItemAt(relativePos, direction, itemstack)) {
 					if (player instanceof ServerPlayer) {
-						CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockpos1, itemstack);
+						CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, relativePos, itemstack);
 					}
 
 					player.awardStat(Stats.ITEM_USED.get(milkBucketItem));
@@ -49,8 +49,8 @@ public class MilkHandler {
 							Containers.dropItemStack(player.level, player.getX(), player.getY(), player.getZ(), bucketStack);
 						}
 					}
-					world.setBlock(blockpos1, MilkRegistry.MILK.get().defaultFluidState().createLegacyBlock(), 11);
-					world.playSound(null, blockpos1, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+					level.setBlock(relativePos, MilkRegistry.MILK.get().defaultFluidState().createLegacyBlock(), 11);
+					level.playSound(null, relativePos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
 					event.setCancellationResult(InteractionResult.SUCCESS);
 				}
 			}
