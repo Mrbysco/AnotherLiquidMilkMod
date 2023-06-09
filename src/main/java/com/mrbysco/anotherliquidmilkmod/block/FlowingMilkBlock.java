@@ -17,8 +17,8 @@ public class FlowingMilkBlock extends LiquidBlock {
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-		super.entityInside(state, world, pos, entity);
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+		super.entityInside(state, level, pos, entity);
 		if (entity instanceof LivingEntity livingEntity) {
 			if (MilkConfig.COMMON.liquidCuresEffects.get() && !livingEntity.getActiveEffects().isEmpty()) {
 				livingEntity.removeAllEffects();

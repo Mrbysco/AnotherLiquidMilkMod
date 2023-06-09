@@ -8,8 +8,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.common.ForgeMod;
@@ -58,7 +60,7 @@ public class MilkRegistry {
 	public static final RegistryObject<ForgeFlowingFluid> FLOWING_MILK = FLUIDS.register(ForgeMod.FLOWING_MILK.getId().getPath(), () -> new ForgeFlowingFluid.Flowing(createProperties()));
 
 	public static final RegistryObject<LiquidBlock> MILK_FLUID_BLOCK = BLOCKS.register(ForgeMod.MILK.getId().getPath(), () ->
-			new FlowingMilkBlock(MILK, Block.Properties.of(Material.WATER).noCollission().strength(100.0F).noLootTable()));
+			new FlowingMilkBlock(MILK, BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).replaceable().liquid().noCollission().pushReaction(PushReaction.DESTROY).strength(100.0F).noLootTable()));
 
 	public static FluidType.Properties createFluidTypeProperties() {
 		return FluidType.Properties.create()

@@ -46,7 +46,7 @@ public class MilkHandler {
 						itemstack.shrink(1);
 						ItemStack bucketStack = new ItemStack(Items.BUCKET);
 						if (!player.addItem(bucketStack)) {
-							Containers.dropItemStack(player.level, player.getX(), player.getY(), player.getZ(), bucketStack);
+							Containers.dropItemStack(player.level(), player.getX(), player.getY(), player.getZ(), bucketStack);
 						}
 					}
 					level.setBlock(relativePos, MilkRegistry.MILK.get().defaultFluidState().createLegacyBlock(), 11);
