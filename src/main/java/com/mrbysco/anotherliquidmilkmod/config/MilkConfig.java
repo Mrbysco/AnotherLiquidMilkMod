@@ -1,17 +1,19 @@
 package com.mrbysco.anotherliquidmilkmod.config;
 
 import com.mrbysco.anotherliquidmilkmod.AnotherLiquidMilkMod;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.event.config.ModConfigEvent.Loading;
+import net.neoforged.fml.event.config.ModConfigEvent.Reloading;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
+import net.neoforged.neoforge.common.ModConfigSpec.Builder;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class MilkConfig {
 	public static class Common {
 		public final BooleanValue liquidCuresEffects;
 
-		Common(ForgeConfigSpec.Builder builder) {
+		Common(Builder builder) {
 			builder.comment("General settings")
 					.push("General");
 
@@ -24,22 +26,22 @@ public class MilkConfig {
 		}
 	}
 
-	public static final ForgeConfigSpec commonSpec;
+	public static final ModConfigSpec commonSpec;
 	public static final Common COMMON;
 
 	static {
-		final Pair<Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Common::new);
+		final Pair<Common, ModConfigSpec> specPair = new Builder().configure(Common::new);
 		commonSpec = specPair.getRight();
 		COMMON = specPair.getLeft();
 	}
 
 	@SubscribeEvent
-	public static void onLoad(final ModConfigEvent.Loading configEvent) {
+	public static void onLoad(final Loading configEvent) {
 		AnotherLiquidMilkMod.LOGGER.debug("Loaded Another Liquid Milk Mod's config file {}", configEvent.getConfig().getFileName());
 	}
 
 	@SubscribeEvent
-	public static void onFileChange(final ModConfigEvent.Reloading configEvent) {
+	public static void onFileChange(final Reloading configEvent) {
 		AnotherLiquidMilkMod.LOGGER.debug("Another Liquid Milk Mod's config just got changed on the file system!");
 	}
 }
