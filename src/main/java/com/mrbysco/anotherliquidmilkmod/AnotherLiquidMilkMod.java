@@ -4,12 +4,10 @@ import com.mrbysco.anotherliquidmilkmod.client.ClientHandler;
 import com.mrbysco.anotherliquidmilkmod.config.MilkConfig;
 import com.mrbysco.anotherliquidmilkmod.handler.MilkHandler;
 import com.mrbysco.anotherliquidmilkmod.registry.MilkRegistry;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig.Type;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.NeoForgeMod;
@@ -22,10 +20,9 @@ public class AnotherLiquidMilkMod {
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
 
-	public AnotherLiquidMilkMod() {
+	public AnotherLiquidMilkMod(IEventBus eventBus) {
 		NeoForgeMod.enableMilkFluid(); //Enable milk from forge
 
-		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		ModLoadingContext.get().registerConfig(Type.COMMON, MilkConfig.commonSpec, "anotherliquidmilkmod.toml");
 		eventBus.register(MilkConfig.class);
 
@@ -35,8 +32,8 @@ public class AnotherLiquidMilkMod {
 
 		NeoForge.EVENT_BUS.addListener(MilkHandler::onRightClick);
 
-		if(FMLEnvironment.dist == Dist.CLIENT) {
+		if (FMLEnvironment.dist.isClient()) {
 			eventBus.addListener(ClientHandler::onClientSetup);
-		};
+		}
 	}
 }
