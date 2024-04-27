@@ -12,8 +12,8 @@ import net.minecraft.world.level.material.FlowingFluid;
 import java.util.function.Supplier;
 
 public class FlowingMilkBlock extends LiquidBlock {
-	public FlowingMilkBlock(Supplier<? extends FlowingFluid> supplier, Properties properties) {
-		super(supplier, properties);
+	public FlowingMilkBlock(FlowingFluid fluid, Properties properties) {
+		super(fluid, properties);
 	}
 
 	@Override

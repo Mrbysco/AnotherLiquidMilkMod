@@ -27,7 +27,7 @@ public class MilkRegistry {
 	public static final Supplier<BaseFlowingFluid> FLOWING_MILK = FLUIDS.register(NeoForgeMod.FLOWING_MILK.getId().getPath(), () -> new Flowing(createProperties()));
 
 	public static final Supplier<LiquidBlock> MILK_FLUID_BLOCK = BLOCKS.register(NeoForgeMod.MILK.getId().getPath(), () ->
-			new FlowingMilkBlock(MILK, BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).replaceable().liquid().noCollission().pushReaction(PushReaction.DESTROY).strength(100.0F).noLootTable()));
+			new FlowingMilkBlock(MILK.get(), BlockBehaviour.Properties.of().mapColor(MapColor.CLAY).replaceable().liquid().noCollission().pushReaction(PushReaction.DESTROY).strength(100.0F).noLootTable()));
 
 	public static net.neoforged.neoforge.fluids.BaseFlowingFluid.Properties createProperties() {
 		return new net.neoforged.neoforge.fluids.BaseFlowingFluid.Properties(NeoForgeMod.MILK_TYPE, MILK, FLOWING_MILK).bucket(() -> Items.MILK_BUCKET).block(MILK_FLUID_BLOCK);

@@ -1,1 +1,1 @@
-* Initial update to 1.20.5
+* Fix support with 20.5.13-beta and above
