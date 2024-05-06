@@ -66,6 +66,7 @@ public class MilkRegistry {
 		return FluidType.Properties.create()
 				.canSwim(true)
 				.canDrown(false)
+				.supportsBoating(true)
 				.pathType(BlockPathTypes.WATER)
 				.sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
 				.sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
