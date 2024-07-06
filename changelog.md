@@ -1,1 +1,1 @@
-* Fix support with 20.5.13-beta and above
+* Update to 1.21
