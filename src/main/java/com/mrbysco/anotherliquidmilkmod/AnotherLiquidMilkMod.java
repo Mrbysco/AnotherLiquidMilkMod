@@ -28,7 +28,6 @@ public class AnotherLiquidMilkMod {
 
 		MilkRegistry.FLUIDS.register(eventBus);
 		MilkRegistry.BLOCKS.register(eventBus);
-//		MilkRegistry.FLUID_TYPES.register(eventBus);
 
 		NeoForge.EVENT_BUS.addListener(MilkHandler::onRightClick);
 
