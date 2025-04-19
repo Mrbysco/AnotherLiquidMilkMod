@@ -9,8 +9,6 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
 
-import java.util.function.Supplier;
-
 public class FlowingMilkBlock extends LiquidBlock {
 	public FlowingMilkBlock(FlowingFluid fluid, Properties properties) {
 		super(fluid, properties);
