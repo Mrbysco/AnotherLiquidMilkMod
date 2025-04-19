@@ -1,0 +1,6 @@
+{
+  "almm.configuration.General": "General",
+  "almm.configuration.General.tooltip": "General Settings",
+  "almm.configuration.liquidCuresEffects": "Liquid Cures Effects",
+  "almm.configuration.liquidCuresEffects.tooltip": "Makes the liquid milk cure effects [default: true]"
+}

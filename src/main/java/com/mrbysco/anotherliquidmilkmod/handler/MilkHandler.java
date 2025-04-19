@@ -14,7 +14,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.MilkBucketItem;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -24,7 +23,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.RightClick
 public class MilkHandler {
 	public static void onRightClick(RightClickBlock event) {
 		final ItemStack itemstack = event.getItemStack();
-		if (itemstack.getItem() instanceof MilkBucketItem milkBucketItem) {
+		if (itemstack.is(Items.MILK_BUCKET)) {
 			final Level level = event.getLevel();
 			final Player player = event.getEntity();
 			BlockHitResult hitResult = Item.getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
@@ -41,7 +40,7 @@ public class MilkHandler {
 						CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, relativePos, itemstack);
 					}
 
-					player.awardStat(Stats.ITEM_USED.get(milkBucketItem));
+					player.awardStat(Stats.ITEM_USED.get(itemstack.getItem()));
 					if (!player.getAbilities().instabuild) {
 						itemstack.shrink(1);
 						ItemStack bucketStack = new ItemStack(Items.BUCKET);
