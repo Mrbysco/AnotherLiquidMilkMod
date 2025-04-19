@@ -3,6 +3,7 @@ package com.mrbysco.anotherliquidmilkmod.block;
 import com.mrbysco.anotherliquidmilkmod.config.MilkConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -15,7 +16,7 @@ public class FlowingMilkBlock extends LiquidBlock {
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier) {
 		if (entity instanceof LivingEntity livingEntity && MilkConfig.COMMON.liquidCuresEffects.get()) {
 			if (!livingEntity.getActiveEffects().isEmpty()) {
 				livingEntity.removeAllEffects();
