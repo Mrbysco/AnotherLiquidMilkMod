@@ -17,7 +17,6 @@ public class MilkConfig {
 			builder.comment("General settings")
 					.push("General");
 
-
 			liquidCuresEffects = builder
 					.comment("Makes the liquid milk cure effects [default: true]")
 					.define("liquidCuresEffects", true);
