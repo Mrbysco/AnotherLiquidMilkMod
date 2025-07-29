@@ -11,9 +11,10 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class MilkDatagen {
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent.Client event) {
@@ -55,7 +56,7 @@ public class MilkDatagen {
 		}
 
 		@Override
-		protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+		protected void registerModels(BlockModelGenerators blockModels, @NotNull ItemModelGenerators itemModels) {
 			blockModels.createNonTemplateModelBlock(MilkRegistry.MILK_FLUID_BLOCK.get());
 		}
 	}
