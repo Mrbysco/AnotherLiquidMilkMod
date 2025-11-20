@@ -16,7 +16,7 @@ public class FlowingMilkBlock extends LiquidBlock {
 	}
 
 	@Override
-	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier) {
+	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier applier, boolean intersects) {
 		if (entity instanceof LivingEntity livingEntity && MilkConfig.COMMON.liquidCuresEffects.get()) {
 			if (!livingEntity.getActiveEffects().isEmpty()) {
 				livingEntity.removeAllEffects();
