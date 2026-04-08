@@ -11,7 +11,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.entity.LivingEntity;
@@ -66,13 +65,9 @@ public class MilkHandler {
 
 						player.awardStat(Stats.ITEM_USED.get(itemstack.getItem()));
 						ItemStack filledResult = ItemUtils.createFilledResult(itemstack, player, BucketItem.getEmptySuccessItem(itemstack, player));
-						itemstack.shrink(1);
+						itemstack.consume(1, player);
 						if (itemstack.isEmpty()) {
 							player.setItemInHand(event.getHand(), filledResult);
-						} else {
-							if (!player.addItem(filledResult)) {
-								Containers.dropItemStack(player.level(), player.getX(), player.getY(), player.getZ(), filledResult);
-							}
 						}
 						event.setCancellationResult(InteractionResult.SUCCESS);
 					} else {
@@ -86,16 +81,16 @@ public class MilkHandler {
 	private static boolean emptyContents(@Nullable LivingEntity livingEntity, Level level, BlockPos pos,
 	                                     @Nullable BlockHitResult hitResult, @Nullable ItemStack container) {
 		Fluid content = MilkRegistry.MILK.get();
-		if (!(content instanceof FlowingFluid flowingfluid)) {
+		if (!(content instanceof FlowingFluid flowingFluid)) {
 			return false;
 		} else {
 			BlockState blockstate = level.getBlockState(pos);
-			Block $$7 = blockstate.getBlock();
-			boolean $$8 = blockstate.canBeReplaced(content);
+			Block block = blockstate.getBlock();
+			boolean canBeReplaced = blockstate.canBeReplaced(content);
 			boolean flag1 = livingEntity != null && livingEntity.isShiftKeyDown();
-			boolean flag2 = $$8
-					|| $$7 instanceof LiquidBlockContainer liquidblockcontainer
-					&& liquidblockcontainer.canPlaceLiquid(livingEntity, level, pos, blockstate, content);
+			boolean flag2 = canBeReplaced
+					|| block instanceof LiquidBlockContainer liquidBlockContainer
+					&& liquidBlockContainer.canPlaceLiquid(livingEntity, level, pos, blockstate, content);
 			var containedFluidStack = container != null ? net.neoforged.neoforge.transfer.fluid.FluidUtil.getFirstStackContained(container) : net.neoforged.neoforge.fluids.FluidStack.EMPTY;
 			boolean flag3 = blockstate.isAir() || flag2 && (!flag1 || hitResult == null);
 			if (!flag3) {
@@ -113,15 +108,15 @@ public class MilkHandler {
 						SoundEvents.FIRE_EXTINGUISH,
 						SoundSource.BLOCKS,
 						0.5F,
-						2.6F + (level.random.nextFloat() - level.random.nextFloat()) * 0.8F
+						2.6F + (level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 0.8F
 				);
 
 				for (int k = 0; k < 8; k++) {
 					level.addParticle(
 							ParticleTypes.LARGE_SMOKE,
-							l + level.random.nextFloat(),
-							i + level.random.nextFloat(),
-							j + level.random.nextFloat(),
+							l + level.getRandom().nextFloat(),
+							i + level.getRandom().nextFloat(),
+							j + level.getRandom().nextFloat(),
 							0.0,
 							0.0,
 							0.0
@@ -129,12 +124,12 @@ public class MilkHandler {
 				}
 
 				return true;
-			} else if ($$7 instanceof LiquidBlockContainer liquidblockcontainer1 && liquidblockcontainer1.canPlaceLiquid(livingEntity, level, pos, blockstate, content)) {
-				liquidblockcontainer1.placeLiquid(level, pos, blockstate, flowingfluid.getSource(false));
+			} else if (block instanceof LiquidBlockContainer placeLiquid && placeLiquid.canPlaceLiquid(livingEntity, level, pos, blockstate, content)) {
+				placeLiquid.placeLiquid(level, pos, blockstate, flowingFluid.getSource(false));
 				playEmptySound(livingEntity, level, pos);
 				return true;
 			} else {
-				if (!level.isClientSide() && $$8 && !blockstate.liquid()) {
+				if (!level.isClientSide() && canBeReplaced && !blockstate.liquid()) {
 					level.destroyBlock(pos, true);
 				}
 
@@ -158,7 +153,7 @@ public class MilkHandler {
 	}
 
 	protected static boolean canBlockContainFluid(@Nullable Player player, Level level, BlockPos posIn, BlockState blockstate) {
-		return blockstate.getBlock() instanceof LiquidBlockContainer &&
-				((LiquidBlockContainer) blockstate.getBlock()).canPlaceLiquid(player, level, posIn, blockstate, MilkRegistry.MILK.get());
+		return blockstate.getBlock() instanceof LiquidBlockContainer liquidBlockContainer &&
+				liquidBlockContainer.canPlaceLiquid(player, level, posIn, blockstate, MilkRegistry.MILK.get());
 	}
 }

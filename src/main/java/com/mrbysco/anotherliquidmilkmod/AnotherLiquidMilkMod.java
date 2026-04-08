@@ -1,7 +1,6 @@
 package com.mrbysco.anotherliquidmilkmod;
 
 import com.mojang.logging.LogUtils;
-import com.mrbysco.anotherliquidmilkmod.client.ClientHandler;
 import com.mrbysco.anotherliquidmilkmod.config.MilkConfig;
 import com.mrbysco.anotherliquidmilkmod.registry.MilkRegistry;
 import net.neoforged.api.distmarker.Dist;
@@ -31,7 +30,6 @@ public class AnotherLiquidMilkMod {
 
 		if (dist.isClient()) {
 			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
-			eventBus.addListener(ClientHandler::onClientSetup);
 		}
 	}
 }
