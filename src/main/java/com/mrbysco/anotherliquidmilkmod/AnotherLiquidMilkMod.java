@@ -3,7 +3,6 @@ package com.mrbysco.anotherliquidmilkmod;
 import com.mojang.logging.LogUtils;
 import com.mrbysco.anotherliquidmilkmod.client.ClientHandler;
 import com.mrbysco.anotherliquidmilkmod.config.MilkConfig;
-import com.mrbysco.anotherliquidmilkmod.handler.MilkHandler;
 import com.mrbysco.anotherliquidmilkmod.registry.MilkRegistry;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -12,7 +11,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig.Type;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import org.slf4j.Logger;
 
@@ -30,8 +28,6 @@ public class AnotherLiquidMilkMod {
 
 		MilkRegistry.FLUIDS.register(eventBus);
 		MilkRegistry.BLOCKS.register(eventBus);
-
-		NeoForge.EVENT_BUS.addListener(MilkHandler::onRightClick);
 
 		if (dist.isClient()) {
 			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
