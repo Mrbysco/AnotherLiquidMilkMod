@@ -5,7 +5,6 @@ import com.mrbysco.anotherliquidmilkmod.registry.MilkRegistry;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -18,11 +17,8 @@ import org.jetbrains.annotations.Nullable;
 public class MilkDatagen {
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent.Client event) {
-		DataGenerator generator = event.getGenerator();
-		PackOutput packOutput = generator.getPackOutput();
-
-		generator.addProvider(true, new MilkLanguage(packOutput));
-		generator.addProvider(true, new MilkModels(packOutput));
+		event.createProvider(MilkLanguage::new);
+		event.createProvider(MilkModels::new);
 	}
 
 	private static class MilkLanguage extends LanguageProvider {

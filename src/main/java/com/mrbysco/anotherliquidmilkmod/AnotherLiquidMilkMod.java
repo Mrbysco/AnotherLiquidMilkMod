@@ -22,7 +22,7 @@ public class AnotherLiquidMilkMod {
 	public AnotherLiquidMilkMod(IEventBus eventBus, Dist dist, ModContainer container) {
 		NeoForgeMod.enableMilkFluid(); //Enable milk from forge
 
-		container.registerConfig(Type.COMMON, MilkConfig.commonSpec, "anotherliquidmilkmod.toml");
+		container.registerConfig(Type.LOCAL, MilkConfig.commonSpec, "anotherliquidmilkmod.toml");
 		eventBus.register(MilkConfig.class);
 
 		MilkRegistry.FLUIDS.register(eventBus);
